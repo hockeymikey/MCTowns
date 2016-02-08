@@ -481,14 +481,24 @@ public class TownManager {
 
         metaF = new YamlConfiguration();
         metaF.load(new File(rootDir, ".meta.yml"));
+        //System.out.println("yaml");
+       // System.out.println(metaF);
 
         for(String s : metaF.getStringList("towns")) {
             f = new YamlConfiguration();
-            f.load(new File(rootDir, s + ".yml"));
-            ret.towns.put(s, Town.readYAML(f));
+            if (new File(rootDir, s + ".yml").isFile()) {
+                f.load(new File(rootDir, s + ".yml"));
+                //System.out.print(f.toString());
+                ret.towns.put(s, Town.readYAML(f));
+            }
+            else {
+            	//Implement later??
+            }
+
         }
 
         for(String s : metaF.getStringList("regions")) {
+        	//System.out.println(s);
             f = new YamlConfiguration();
             f.load(new File(rootDir, s + ".yml"));
 

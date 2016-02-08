@@ -21,6 +21,7 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import net.jmhertlein.mctowns.MCTowns;
 import net.jmhertlein.mctowns.MCTownsPlugin;
 import net.jmhertlein.mctowns.bank.BlockBank;
@@ -560,13 +561,27 @@ public class Town {
     }
 
     public static Town readYAML(FileConfiguration f) {
+
         Town t = new Town();
 
         t.townName = f.getString("townName");
         t.townMOTD = f.getString("motd");
         t.motdColor = ChatColor.valueOf(f.getString("motdColor"));
-        t.warps = (Map<String, Location>) (Map) ((MemorySection) f.get("warps")).getValues(true);
-
+        if (f.contains("warps"))  {
+            t.warps = (Map<String, Location>) (Map) ((MemorySection) f.get("warps")).getValues(true);
+        }
+        else {
+        	System.out.print("Warps doesn't exist for "+t.townName+" creating one.");
+        	Map<String, Location> warpss;
+        	warpss = new HashMap<>();
+        	
+        	net.jmhertlein.core.location.Location oldspawn = net.jmhertlein.core.location.Location.fromList(f.getStringList("spawnLocation"));
+        	warpss.put("spawn", net.jmhertlein.core.location.Location.convertToBukkitLocation(Bukkit.getServer(), oldspawn));
+        	f.set("warps", warpss);
+        	f.set("wow", "wow");
+        	t.warps = (Map<String, Location>) (Map) ((MemorySection) f.get("warps")).getValues(true);
+        	//System.out.print(f);
+        }
         t.mayor = UUIDs.stringToId(f.getString("mayor"));
         t.territories = new HashSet<>(f.getStringList("territs"));
 
@@ -580,6 +595,7 @@ public class Town {
         t.buyablePlots = f.getBoolean("buyablePlots");
 
         t.bank = BlockBank.readYAML(f, MCTownsPlugin.getPlugin().getOpenDepositInventories());
+
         return t;
     }
 

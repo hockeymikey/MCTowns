@@ -51,7 +51,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         super(parent);
     }
 
-    @CommandMethod(path = "town active", requiredArgs = 1)
+    @CommandMethod(path = "town active", requiredArgs = 1, helpMsg = "[MCT] Usage: /town active [Town Name]")
     public void setActiveTown(CommandSender s, String[] args) {
         setNewCommand(s);
         Town t = townManager.getTown(args[0]);
@@ -103,7 +103,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         localSender.sendMessage("Town spawn location updated.");
     }
 
-    @CommandMethod(path = "town joinmethod", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town joinmethod", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town joinmethod [Economy | Invitation]")
     public void setTownJoinMethod(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -132,7 +132,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
 
     }
 
-    @CommandMethod(path = "town economy buyableplots", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town economy buyableplots", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town economy buyableplots [True|False]")
     public void setTownPlotBuyability(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -166,7 +166,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
 
     }
 
-    @CommandMethod(path = "town economy defaultplotprice", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town economy defaultplotprice", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town economy defaultplotprice [Price]")
     public void setDefaultPlotPrice(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -191,7 +191,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
 
     }
 
-    @CommandMethod(path = "town add territory", requiredArgs = 1)
+    @CommandMethod(path = "town add territory", requiredArgs = 1, helpMsg = "[MCT] Usage: /town add territory [Terr. Name]")
     public void addTerritorytoTown(CommandSender s, String[] args) {
         setNewCommand(s);
         boolean admin = localSender.hasExternalPermissions(Perms.ADMIN.toString());
@@ -274,7 +274,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
 
     }
 
-    @CommandMethod(path = "town remove territory", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town remove territory", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town remove territory [Terr. Name]")
     public void removeTerritoryFromTown(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -294,7 +294,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "town add player", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town add player", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town add player [Player Name]")
     public void invitePlayerToTown(CommandSender s, String[] args) {
         setNewCommand(s);
         Town t = localSender.getActiveTown();
@@ -353,7 +353,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "town add assistant", requiredArgs = 1)
+    @CommandMethod(path = "town add assistant", requiredArgs = 1, helpMsg = "[MCT] Usage: /town add assistant [Player Name]")
     public void promoteToAssistant(CommandSender s, String[] args) {
         setNewCommand(s);
         Town t = localSender.getActiveTown();
@@ -398,7 +398,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "town remove assistant", requiredArgs = 1)
+    @CommandMethod(path = "town remove assistant", requiredArgs = 1, helpMsg = "[MCT] Usage: /town remove assistant [Player Name]")
     public void demoteFromAssistant(CommandSender s, String[] args) {
         setNewCommand(s);
         Town t = localSender.getActiveTown();
@@ -438,7 +438,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "town mayor set", requiredArgs = 1)
+    @CommandMethod(path = "town mayor set", requiredArgs = 1, helpMsg = "[MCT] Usage: /town mayor set [Player Name]")
     public void setMayor(CommandSender s, String[] args) {
         setNewCommand(s);
         Town t = localSender.getActiveTown();
@@ -468,7 +468,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         t.broadcastMessageToTown("The mayor of " + t.getName() + " is now " + p.getName() + "!");
     }
 
-    @CommandMethod(path = "town remove invite", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town remove invite", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town remove invite [Player Name]")
     public void cancelInvitation(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -486,7 +486,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "town remove request", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town remove request", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town remove request [Player Name]")
     public void rejectRequest(CommandSender s, String[] args) {
         setNewCommand(s);
         String playerName = args[0];
@@ -551,7 +551,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "town remove player", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town remove player", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town remove player [Player Name]")
     public void removePlayerFromTown(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -614,7 +614,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         localSender.sendMessage(ChatColor.DARK_RED + "You have left " + localSender.getActiveTown().getName() + ".");
     }
 
-    @CommandMethod(path = "town pvp friendlyfire", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town pvp friendlyfire", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town pvp friendlyfire [True|False]")
     public void setTownFriendlyFire(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -635,7 +635,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
 
     }
 
-    @CommandMethod(path = "town motd set", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town motd set", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town motd set [Message]")
     public void setMOTD(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -701,7 +701,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "town add warp", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town add warp", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town add warp [Warp Name]")
     public void addWarp(Player p, String warpName) {
         setNewCommand(p);
 
@@ -723,7 +723,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "town remove warp", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town remove warp", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town remove warp [Warp Name]")
     public void deleteWarp(Player s, String warpName) {
         setNewCommand(s);
 
@@ -753,7 +753,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         t.getWarps().stream().forEach(w -> localSender.sendMessage(ChatColor.GOLD + w));
     }
 
-    @CommandMethod(path = "town warp", requiredArgs = 1)
+    @CommandMethod(path = "town warp", requiredArgs = 1, helpMsg = "[MCT] Usage: /town warp [Warp Name]")
     public void useWarp(Player p, String warpName) {
         setNewCommand(p);
         Town t = localSender.getActiveTown();
@@ -834,7 +834,7 @@ public class TownHandler extends CommandHandler implements CommandDefinition {
         localSender.getPlayer().openInventory(t.getBank().getNewDepositBox(localSender.getPlayer()));
     }
 
-    @CommandMethod(path = "town bank withdraw currency", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "town bank withdraw currency", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /town bank withdraw currency [Amount]")
     public void withdrawCurrencyBank(CommandSender s, String[] args) {
         setNewCommand(s);
 

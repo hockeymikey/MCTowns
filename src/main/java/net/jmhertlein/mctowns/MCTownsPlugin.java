@@ -141,6 +141,7 @@ public class MCTownsPlugin extends JavaPlugin {
     }
 
     private void setupFiles() {
+    	
         saveDefaultConfig();
         savesDir = new File(this.getDataFolder(), "saves");
 
@@ -153,7 +154,6 @@ public class MCTownsPlugin extends JavaPlugin {
         for(File f : dataDirs) {
             f.mkdirs();
         }
-
         configFiles = new HashSet<>();
         configFiles.add(configFile);
         configFiles.add(metaFile);
@@ -173,6 +173,7 @@ public class MCTownsPlugin extends JavaPlugin {
         try {
             townManager = TownManager.readYAML(savesDir.getAbsolutePath());
         } catch(IOException | InvalidConfigurationException ex) {
+        	System.out.println(ex);
             MCTowns.logWarning("MCTowns: Couldn't load the town database. Ignore if this is the first time the plugin has been run.");
             townManager = new TownManager();
         }

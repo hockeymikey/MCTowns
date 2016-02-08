@@ -17,14 +17,24 @@
 package net.jmhertlein.mctowns.upgrade;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.jmhertlein.mctowns.MCTownsPlugin;
 import net.jmhertlein.mctowns.TownManager;
+import net.jmhertlein.mctowns.region.Town;
 import net.jmhertlein.mctowns.util.MCTConfig;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.MemorySection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  *
@@ -131,6 +141,63 @@ public abstract class ResourceUpgradePaths {
     }
 
     private static void upgradeFrom240To250(File rootDir, MCTownsPlugin p) {
+    	//System.out.println("240");
+    	rootDir = new File(rootDir, "saves");
+    	
+    	FileConfiguration savesfol,f;
+    	savesfol = new YamlConfiguration();
+    	
+        try {
+			savesfol.load(new File(rootDir, ".meta.yml"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        for(String s : savesfol.getStringList("towns")) {
+        	//protection from towns that are screwed up.
+        	if (new File(rootDir, s + ".yml").isFile()) {
+
+            	Map<String, Location> warpss;
+            	warpss = new HashMap<>();
+                f = new YamlConfiguration();
+                File y = new File(rootDir, s + ".yml");
+
+                try {
+    				f.load(y);
+    			} catch (FileNotFoundException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			} catch (InvalidConfigurationException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+
+            	net.jmhertlein.core.location.Location oldspawn = net.jmhertlein.core.location.Location.fromList(f.getStringList("spawnLocation"));
+            	warpss.put("spawn", net.jmhertlein.core.location.Location.convertToBukkitLocation(Bukkit.getServer(), oldspawn));
+
+                f.createSection("warps", warpss);
+
+                try {
+					f.save(y);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                //System.out.print(f.toString());
+        	}
+        	
+        }
+
         p.getConfig().set("wgRequirement", "([6-9]\\..*)|([0-9]{2,}\\..*)");
     }
 }

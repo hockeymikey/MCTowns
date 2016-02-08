@@ -13,9 +13,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
+  
   <scm>
-    <connection>scm:git:git://github.com:jmhertlein/MCTowns.git</connection>
+      <connection>scm:git:git://github.com:jmhertlein/MCTowns.git</connection>
   </scm>
 
   <dependencies>
@@ -28,13 +28,13 @@
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldedit</artifactId>
-      <version>5.5.8</version>
+      <version>5.6.2</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.8-R0.1-SNAPSHOT</version>
+      <version>1.8.8-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -44,10 +44,16 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>net.jmhertlein</groupId>
+      <artifactId>reflective</artifactId>
+      <version>1.1-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>net.milkbowl.vault</groupId>
       <artifactId>Vault</artifactId>
       <scope>provided</scope>
-      <version>1.2.30</version>
+      <version>1.5.4</version>
     </dependency>
     <dependency>
       <groupId>org.mcstats.bukkit</groupId>
@@ -55,26 +61,12 @@
       <scope>compile</scope>
       <version>R6</version>
     </dependency>
-    <dependency>
-      <groupId>net.jmhertlein</groupId>
-      <artifactId>reflective</artifactId>
-      <version>1.1-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
   </dependencies>
 
   <repositories>
     <repository>
-      <id>vault-repo</id>
-      <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
-    </repository>
-    <repository>
       <id>jmh-repo</id>
-      <url>https://maven.jmhertlein.net/</url>
-    </repository>
-    <repository>
-      <id>spigot-nexus-snaps</id>
-      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+      <url>http://maven.jmhertlein.net/</url>
     </repository>
     <repository>
       <id>sk89q-repo</id>
@@ -84,16 +76,14 @@
       <id>Plugin Metrics</id>
       <url>http://repo.mcstats.org/content/repositories/public</url>
     </repository>
+	<repository>
+		<id>vault-repo</id>
+		<url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+	</repository>
   </repositories>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>jmh-repo</id>
-      <url>https://maven.jmhertlein.net/</url>
-    </pluginRepository>
-  </pluginRepositories>
-
   <build>
+  <finalName>MCTowns</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -102,12 +92,6 @@
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
-          <annotationProcessors>
-            <annotationProcessor>
-              net.jmhertlein.reflective.processor.CommandMethodProcessor
-            </annotationProcessor>
-          </annotationProcessors>
-          <compilerArgument>-parameters</compilerArgument>
         </configuration>
       </plugin>
       <plugin>
@@ -132,7 +116,7 @@
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh-external</artifactId>
+        <artifactId>wagon-ssh</artifactId>
       </extension>
     </extensions>
 
@@ -143,7 +127,7 @@
       </resource>
     </resources>
   </build>
-
+  
   <profiles>
     <profile>
       <id>shaded</id>
@@ -152,7 +136,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
-            <version>2.4-jmhertlein</version>
+            <version>2.4.3</version>
             <executions>
               <execution>
                 <phase>package</phase>
@@ -160,7 +144,13 @@
                   <goal>shade</goal>
                 </goals>
                 <configuration>
-                  <createDependencyReducedPom>false</createDependencyReducedPom>
+				  <artifactSet>
+				  	<includes>
+				  		<include>net.jmhertlein:reflective</include>
+						<include>net.jmhertlein:EverCoreUtils</include>
+						<include>org.mcstats.bukkit:metrics</include>
+				  	</includes>
+				  </artifactSet>
                   <minimizeJar>true</minimizeJar>
                   <relocations>
                     <relocation>
@@ -180,11 +170,11 @@
       </build>
     </profile>
   </profiles>
-
+  
   <distributionManagement>
     <repository>
       <id>jmh-repo</id>
-      <url>scpexe://maven.jmhertlein.net/var/www/maven</url>
+      <url>sftp://maven.jmhertlein.net:4242/home/joshua/public_html/maven</url>
     </repository>
   </distributionManagement>
   <description>A flexible town-management plugin for the Bukkit API, using the popular WorldGuard plugin for regions and WorldEdit for selection.</description>

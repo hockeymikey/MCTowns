@@ -41,7 +41,7 @@ public class TerritoryHandler extends CommandHandler implements CommandDefinitio
         super(parent);
     }
 
-    @CommandMethod(path = "territory add plot", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "territory add plot", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /te add plot [Plot Name]")
     public void addPlotToTerritory(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -94,7 +94,7 @@ public class TerritoryHandler extends CommandHandler implements CommandDefinitio
 
     }
 
-    @CommandMethod(path = "territory remove plot", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "territory remove plot", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /te remove plot [Plot Name]")
     public void removePlotFromTerritory(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -114,7 +114,7 @@ public class TerritoryHandler extends CommandHandler implements CommandDefinitio
         localSender.sendMessage(SUCC + "Plot removed.");
     }
 
-    @CommandMethod(path = "territory add player", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "territory add player", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /te add player [Player Name]")
     public void addPlayerToTerritory(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -151,7 +151,7 @@ public class TerritoryHandler extends CommandHandler implements CommandDefinitio
         }
     }
 
-    @CommandMethod(path = "territory remove player", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "territory remove player", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /te remove player [Player Name]")
     public void removePlayerFromTerritory(CommandSender s, String playerName, Boolean recursive) {
         setNewCommand(s);
 
@@ -187,7 +187,7 @@ public class TerritoryHandler extends CommandHandler implements CommandDefinitio
         }
     }
 
-    @CommandMethod(path = "territory active", requiredArgs = 1)
+    @CommandMethod(path = "territory active", requiredArgs = 1, helpMsg = "[MCT] Usage: /te active [Terr. Name]")
     public void setActiveTerritory(CommandSender s, String[] args) {
         setNewCommand(s);
         Town t = localSender.getActiveTown();

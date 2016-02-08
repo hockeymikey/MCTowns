@@ -58,7 +58,7 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
         s.sendMessage("Log into your GitHub account and click \"new issue\".");
     }
 
-    @CommandMethod(path = "mct exportgraph", requiredArgs = 1, permNodes = {"mctowns.export"})
+    @CommandMethod(path = "mct exportgraph", requiredArgs = 1, permNodes = {"mctowns.export"}, helpMsg = "[MCT] Usage: /mct exportgraph [???]")
     public void exportGraph(CommandSender s, String filename) {
         File f = new File(filename);
         try(DotWriter w = new DotWriter(f, true)) {
@@ -90,7 +90,7 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
         s.sendMessage(ChatColor.GREEN + "Exported DOTfile to PNG as " + f.getAbsolutePath() + ".png");
     }
 
-    @CommandMethod(path = "mct addtown", requiredArgs = 2)
+    @CommandMethod(path = "mct addtown", requiredArgs = 2, helpMsg = "[MCT] Usage: /mct addtown [Town Name] [Player Name]")
     public void createTown(CommandSender s, String[] args) {
         setNewCommand(s);
         String townName = args[0], mayorName = args[1];
@@ -125,7 +125,7 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "mct removetown", requiredArgs = 1)
+    @CommandMethod(path = "mct removetown", requiredArgs = 1, helpMsg = "[MCT] Usage: /mct removetown [town name]")
     public void removeTown(CommandSender s, String[] args) {
         setNewCommand(s);
         if(!localSender.canDeleteTown()) {
@@ -166,7 +166,7 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
 
     }
 
-    @CommandMethod(path = "mct info town", requiredArgs = 1)
+    @CommandMethod(path = "mct info town", requiredArgs = 1, helpMsg = "[MCT] Usage: /mct info town [Town Name]")
     public void queryTownInfo(CommandSender s, String[] args) {
         setNewCommand(s);
         Town t = townManager.getTown(args[0]);
@@ -185,7 +185,7 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
         localSender.sendMessage(c + "Join method: " + (t.usesEconomyJoins() ? "Plot purchase" : "invitations"));
     }
 
-    @CommandMethod(path = "mct info player", requiredArgs = 1)
+    @CommandMethod(path = "mct info player", requiredArgs = 1, helpMsg = "[MCT] Usage: /mct info player [Player Name]")
     public void queryPlayerInfo(CommandSender s, String[] args) {
         setNewCommand(s);
         OfflinePlayer p = server.getOfflinePlayer(args[0]);
@@ -209,18 +209,24 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "mct list towns")
+    @CommandMethod(path = "mct list towns", helpMsg = "[MCT] Usage: /mct list towns")
     public void listTowns(CommandSender s) {
         setNewCommand(s);
+        
+        if (townManager.getTownsCollection().size() == 0) {
+        	s.sendMessage("ChatColor.YELLOW+[MCT] There aren't any towns.");
+        }
+        else {
+            townManager.getTownsCollection().stream()
+            .collect(Collectors.toMap(
+                    t -> t.getName(),
+                    t -> getOnlinePlayerCounts(t)))
+            .forEach((town, counts) -> s.sendMessage(String.format("%s%s (%s/%s online)", ChatColor.YELLOW, town, counts[0], counts[1])));
 
-        townManager.getTownsCollection().stream()
-                .collect(Collectors.toMap(
-                        t -> t.getName(),
-                        t -> getOnlinePlayerCounts(t)))
-                .forEach((town, counts) -> s.sendMessage(String.format("%s%s (%s/%s online)", ChatColor.YELLOW, town, counts[0], counts[1])));
+        }
     }
 
-    @CommandMethod(path = "mct join", requiredArgs = 1)
+    @CommandMethod(path = "mct join", requiredArgs = 1, helpMsg = "[MCT] Usage: /mct join [Town Name]")
     public void requestAdditionToTown(CommandSender s, String[] args) {
         setNewCommand(s);
         if(!MCTConfig.PLAYERS_CAN_JOIN_MULTIPLE_TOWNS.getBoolean() && townManager.playerIsAlreadyInATown(localSender.getPlayer())) {
@@ -264,7 +270,7 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "mct refuse", requiredArgs = 1)
+    @CommandMethod(path = "mct refuse", requiredArgs = 1, helpMsg = "[MCT] Usage: /mct refuse [Town Name]")
     public void rejectInvitationFromTown(CommandSender s, String[] args) {
         setNewCommand(s);
         String pName = localSender.getPlayer().getName();
@@ -281,7 +287,7 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
 
     }
 
-    @CommandMethod(path = "mct cancel", requiredArgs = 1)
+    @CommandMethod(path = "mct cancel", requiredArgs = 1, helpMsg = "[MCT] Usage: /mct cancel [Town Name]")
     public void cancelRequest(CommandSender s, String[] args) {
         setNewCommand(s);
 

@@ -65,7 +65,7 @@ public class PlotHandler extends CommandHandler implements CommandDefinition {
 
     }
 
-    @CommandMethod(path = "plot remove player", requiredArgs = 1)
+    @CommandMethod(path = "plot remove player", requiredArgs = 1, helpMsg = "[MCT] Usage: /plot remove player [Player Name]")
     public void removePlayerFromPlot(CommandSender s, String[] args) {
         setNewCommand(s);
         Plot plot = localSender.getActivePlot();
@@ -92,7 +92,7 @@ public class PlotHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "plot add player", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "plot add player", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /plot add player [Player Name]")
     public void addPlayerToPlot(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -127,7 +127,7 @@ public class PlotHandler extends CommandHandler implements CommandDefinition {
 
     }
 
-    @CommandMethod(path = "plot add guest", requiredArgs = 1)
+    @CommandMethod(path = "plot add guest", requiredArgs = 1, helpMsg = "[MCT] Usage: /plot add guest [Player Name]")
     public void addPlayerToPlotAsGuest(CommandSender s, String[] args) {
         setNewCommand(s);
         Plot plot = localSender.getActivePlot();
@@ -159,7 +159,7 @@ public class PlotHandler extends CommandHandler implements CommandDefinition {
         }
     }
 
-    @CommandMethod(path = "plot economy forsale", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "plot economy forsale", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /plot economy forsale [Price]")
     public void setPlotBuyability(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -194,7 +194,7 @@ public class PlotHandler extends CommandHandler implements CommandDefinition {
         localSender.sendMessage(ChatColor.GREEN + "The plot " + p.getName() + " is " + (forSale ? "now" : "no longer") + " for sale!");
     }
 
-    @CommandMethod(path = "plot economy setprice", requiredArgs = 1, filters = {"mayoralPerms"})
+    @CommandMethod(path = "plot economy setprice", requiredArgs = 1, filters = {"mayoralPerms"}, helpMsg = "[MCT] Usage: /plot economy setprice [Price]")
     public void setPlotPrice(CommandSender s, String[] args) {
         setNewCommand(s);
 
@@ -328,7 +328,7 @@ public class PlotHandler extends CommandHandler implements CommandDefinition {
         p.setPrice(BigDecimal.ZERO);
     }
 
-    @CommandMethod(path = "plot active", requiredArgs = 1)
+    @CommandMethod(path = "plot active", requiredArgs = 1, helpMsg = "[MCT] Usage: /plot active [Plot Name]")
     public void setActivePlot(CommandSender s, String plotName) {
         setNewCommand(s);
 
