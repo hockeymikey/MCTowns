@@ -25,6 +25,8 @@ import java.util.List;
 import net.jmhertlein.core.command.LocalSender;
 import net.jmhertlein.mctowns.database.TownManager;
 import net.jmhertlein.mctowns.permission.Perms;
+
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -187,4 +189,9 @@ public class MCTLocalSender extends LocalSender {
     public void notifyConsoleNotSupported() {
         sender.sendMessage("This command cannot be run as console");
     }
+
+	public void sendMessageF(String string, ChatColor err, int cur, int max) {
+		// TODO Auto-generated method stub
+		
+	}
 }

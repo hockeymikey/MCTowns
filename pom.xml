@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>net.jmhertlein</groupId>
@@ -17,6 +17,7 @@
   <scm>
     <connection>scm:git:git://github.com:jmhertlein/MCTowns.git</connection>
   </scm>
+  <!-- org.apache.commons -->
 
   <dependencies>
     <dependency>
@@ -34,13 +35,14 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.9.2-R0.1-SNAPSHOT</version>
+      <version>1.11-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <!--  PROBLEM -->
     <dependency>
       <groupId>net.jmhertlein</groupId>
       <artifactId>EverCoreUtils</artifactId>
-      <version>3.0-SNAPSHOT</version>
+      <version>4.0-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -55,16 +57,26 @@
       <scope>compile</scope>
       <version>R8-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <scope>provided</scope>
+      <version>1.8</version>
+    </dependency>
   </dependencies>
 
   <repositories>
     <repository>
-      <id>vault-repo</id>
-      <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+      <id>Apache Central</id>
+      <url>https://repository.apache.org/content/repositories/releases/</url>
     </repository>
     <repository>
+		<id>vault-repo</id>
+		<url>http://nexus.hc.to/content/repositories/pub_releases</url>
+	</repository>
+    <repository>
       <id>jmh-repo</id>
-      <url>http://maven.jmhertlein.net/~joshua/maven/</url>
+      <url>http://maven.jmhertlein.net/</url>
     </repository>
     <repository>
       <id>spigot-nexus-snaps</id>
