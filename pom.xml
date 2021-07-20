@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>net.jmhertlein</groupId>
+  <groupId>cafe.josh</groupId>
   <artifactId>MCTowns</artifactId>
-  <version>2.4.1</version>
+  <version>2.5.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>MCTowns</name>
@@ -38,9 +38,8 @@
       <version>1.11-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
-    <!--  PROBLEM -->
     <dependency>
-      <groupId>net.jmhertlein</groupId>
+      <groupId>cafe.josh</groupId>
       <artifactId>EverCoreUtils</artifactId>
       <version>4.0-SNAPSHOT</version>
       <scope>compile</scope>
@@ -58,10 +57,10 @@
       <version>R8-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <scope>provided</scope>
-      <version>1.8</version>
+      <groupId>cafe.josh</groupId>
+      <artifactId>reflective</artifactId>
+      <version>1.1-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
@@ -71,12 +70,12 @@
       <url>https://repository.apache.org/content/repositories/releases/</url>
     </repository>
     <repository>
-		<id>vault-repo</id>
-		<url>http://nexus.hc.to/content/repositories/pub_releases</url>
-	</repository>
+      <id>vault-repo</id>
+      <url>http://nexus.hc.to/content/repositories/pub_releases</url>
+    </repository>
     <repository>
       <id>jmh-repo</id>
-      <url>http://maven.jmhertlein.net/</url>
+      <url>https://maven.josh.cafe/</url>
     </repository>
     <repository>
       <id>spigot-nexus-snaps</id>
@@ -125,7 +124,7 @@
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh</artifactId>
+        <artifactId>wagon-ssh-external</artifactId>
       </extension>
     </extensions>
 
@@ -145,7 +144,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
-            <version>2.1</version>
+            <version>2.4.1</version>
             <executions>
               <execution>
                 <phase>package</phase>
@@ -177,7 +176,7 @@
   <distributionManagement>
     <repository>
       <id>jmh-repo</id>
-      <url>sftp://maven.jmhertlein.net:4242/home/joshua/public_html/maven</url>
+      <url>scpexe://maven.josh.cafe/var/www/maven</url>
     </repository>
   </distributionManagement>
   <description>A flexible town-management plugin for the Bukkit API, using the popular WorldGuard plugin for regions and
