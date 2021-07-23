@@ -16,9 +16,14 @@
  */
 package cafe.josh.mctowns.region;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+
 import java.util.Objects;
 import java.util.UUID;
 import cafe.josh.mctowns.MCTowns;
@@ -80,14 +85,15 @@ public abstract class MCTownsRegion {
     public boolean removePlayer(UUID playerID) {
         DefaultDomain members, owners;
         boolean removed = false;
-        WorldGuardPlugin wgp = MCTowns.getWorldGuardPlugin();
+        WorldGuard wgp = MCTowns.getWorldGuard();
 
-        World w = wgp.getServer().getWorld(worldName);
+        World w = Bukkit.getServer().getWorld(worldName);
         if(w == null) {
             return false;
         }
-
-        ProtectedRegion reg = wgp.getRegionManager(w).getRegion(name);
+        RegionContainer container = MCTowns.getWorldGuard().getPlatform().getRegionContainer();
+        ProtectedRegion reg = container.get(BukkitAdapter.adapt(w)).getRegion(name);
+        
         if(reg == null) {
             return false;
         }
@@ -123,12 +129,14 @@ public abstract class MCTownsRegion {
     }
 
     public boolean addPlayer(UUID playerID) {
-        World w = MCTowns.getWorldGuardPlugin().getServer().getWorld(worldName);
+        World w = Bukkit.getServer().getWorld(worldName);
         if(w == null) {
             return false;
         }
 
-        ProtectedRegion reg = MCTowns.getWorldGuardPlugin().getRegionManager(w).getRegion(name);
+        RegionContainer container = MCTowns.getWorldGuard().getPlatform().getRegionContainer();
+        ProtectedRegion reg = container.get(BukkitAdapter.adapt(w)).getRegion(name);
+
         if(reg == null) {
             return false;
         }
@@ -143,12 +151,14 @@ public abstract class MCTownsRegion {
     }
 
     public boolean addGuest(UUID playerID) {
-        World w = MCTowns.getWorldGuardPlugin().getServer().getWorld(worldName);
+        World w = Bukkit.getServer().getWorld(worldName);
         if(w == null) {
             return false;
         }
 
-        ProtectedRegion reg = MCTowns.getWorldGuardPlugin().getRegionManager(w).getRegion(name);
+        RegionContainer container = MCTowns.getWorldGuard().getPlatform().getRegionContainer();
+        ProtectedRegion reg = container.get(BukkitAdapter.adapt(w)).getRegion(name);
+        
         if(reg == null) {
             return false;
         }
@@ -168,7 +178,8 @@ public abstract class MCTownsRegion {
     }
 
     public ProtectedRegion getWGRegion() {
-        return MCTowns.getWorldGuardPlugin().getRegionManager(Bukkit.getServer().getWorld(worldName)).getRegion(name);
+        RegionContainer container = MCTowns.getWorldGuard().getPlatform().getRegionContainer();
+        return container.get(BukkitAdapter.adapt(Bukkit.getServer().getWorld(worldName))).getRegion(name);
     }
 
     @Override

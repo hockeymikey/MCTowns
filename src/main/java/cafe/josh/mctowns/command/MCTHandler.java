@@ -19,8 +19,13 @@ package cafe.josh.mctowns.command;
 import cafe.josh.mctowns.region.Plot;
 import cafe.josh.mctowns.region.Town;
 import cafe.josh.mctowns.util.Players;
+
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.managers.storage.StorageException;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -135,7 +140,7 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
         }
 
         Town t = townManager.getTown(args[0]);
-        if(t == null) {
+        if (t == null) {
             localSender.sendMessage(ERR + "The town \"" + args[0] + "\" does not exist.");
             return;
         }
@@ -143,8 +148,8 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
         townManager.removeTown(args[0]);
 
         try {
-            for(World w : Bukkit.getWorlds()) {
-                MCTowns.getWorldGuardPlugin().getRegionManager(w).save();
+            for (World w : Bukkit.getWorlds()) {
+                MCTowns.getWorldGuard().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(w)).save();
             }
         } catch(StorageException ex) {
             MCTowns.logSevere("Error: unable to force a region manager save in WorldGuard. Details:");
@@ -152,8 +157,8 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
         } catch(NullPointerException npe) {
             MCTowns.logSevere("Couldn't force WG to save its regions. (null)");
             MCTowns.logSevere("Debug analysis:");
-            MCTowns.logSevere("WG plugin was null: " + (MCTowns.getWorldGuardPlugin() == null));
-            MCTowns.logSevere("Server was null: " + (MCTowns.getWorldGuardPlugin() == null));
+            MCTowns.logSevere("WG plugin was null: " + (MCTowns.getWorldGuard() == null));
+            MCTowns.logSevere("Server was null: " + (MCTowns.getWorldGuard() == null));
         }
 
         t.getResidents().stream()
@@ -358,8 +363,10 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
             localSender.sendMessage(ERR + "Insufficient funds.");
             return;
         }
-
-        ProtectedRegion plotReg = MCTowns.getWorldGuardPlugin().getRegionManager(server.getWorld(p.getWorldName())).getRegion(p.getName());
+        RegionContainer container = MCTowns.getWorldGuard().getPlatform().getRegionContainer();
+        RegionManager regMan = container.get(BukkitAdapter.adapt(server.getWorld(p.getWorldName())));
+        
+        ProtectedRegion plotReg = regMan.getRegion(p.getName());
         if(plotReg == null) {
             localSender.sendMessage(ERR + "The WorldGuard region for the plot you're trying to buy seems to have been deleted. Please notify your mayor.");
             return;
@@ -374,7 +381,8 @@ public class MCTHandler extends CommandHandler implements CommandDefinition {
         plotReg.getOwners().addPlayer(localSender.getPlayer().getName());
 
         localSender.sendMessage(ChatColor.GREEN + "You are now the proud owner of this plot.");
-        doRegManSave(MCTowns.getWorldGuardPlugin().getRegionManager(server.getWorld(p.getWorldName())));
+        
+        doRegManSave(container.get(BukkitAdapter.adapt(Bukkit.getServer().getWorld(p.getWorldName()))));
 
         if(!townManager.matchPlayerToTowns(localSender.getPlayer()).contains(plotToBuy.getActiveTown())) {
             plotToBuy.getActiveTown().addPlayer(localSender.getPlayer());

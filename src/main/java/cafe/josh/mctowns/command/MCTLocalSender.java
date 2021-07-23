@@ -23,12 +23,13 @@ import cafe.josh.mctowns.region.Plot;
 import cafe.josh.mctowns.region.Territory;
 import cafe.josh.mctowns.region.Town;
 import cafe.josh.mctowns.region.TownLevel;
+import net.jmhertlein.core.command.LocalSender;
 
 import java.util.HashMap;
 import java.util.List;
-import net.jmhertlein.core.command.LocalSender;
-import net.jmhertlein.mctowns.database.TownManager;
-import net.jmhertlein.mctowns.permission.Perms;
+
+import cafe.josh.mctowns.TownManager;
+import cafe.josh.mctowns.permission.Perms;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;

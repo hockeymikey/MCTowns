@@ -52,6 +52,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+
 /**
  * The main class of the MCTowns plugin.
  *
@@ -228,7 +230,7 @@ public class MCTownsPlugin extends JavaPlugin {
 
     private void regEventListeners() {
         MCTPlayerListener playerListener = new MCTPlayerListener(this);
-        QuickSelectToolListener qsToolListener = new QuickSelectToolListener(MCTowns.getWorldGuardPlugin(), this);
+        QuickSelectToolListener qsToolListener = new QuickSelectToolListener(MCTowns.getWorldGuard(), this);
 
         getServer().getPluginManager().registerEvents(playerListener, this);
         getServer().getPluginManager().registerEvents(qsToolListener, this);
@@ -331,7 +333,7 @@ public class MCTownsPlugin extends JavaPlugin {
 
     private void saveWorldGuardWorlds() throws Exception {
         for(World w : this.getServer().getWorlds()) {
-            MCTowns.getWorldGuardPlugin().getRegionManager(w).save();
+            MCTowns.getWorldGuard().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(w)).save();
         }
     }
 

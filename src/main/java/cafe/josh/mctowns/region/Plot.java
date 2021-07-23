@@ -16,9 +16,15 @@
  */
 package cafe.josh.mctowns.region;
 
-import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.math.Vector3;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+
 import java.math.BigDecimal;
 import net.jmhertlein.core.location.Location;
 import cafe.josh.mctowns.MCTowns;
@@ -161,7 +167,8 @@ public class Plot extends MCTownsRegion {
             return false;
         }
 
-        loc.getBlock().setType(Material.SIGN_POST);
+        //TODO: Custom sign types???
+        loc.getBlock().setType(Material.OAK_SIGN);
 
         Sign sign = (Sign) loc.getBlock().getState();
 
@@ -189,12 +196,15 @@ public class Plot extends MCTownsRegion {
      * Tries to place the sign's location in the middle of the plot.
      */
     public final void calculateSignLoc() {
-        WorldGuardPlugin wgp = MCTowns.getWorldGuardPlugin();
-        ProtectedRegion reg = wgp.getRegionManager(wgp.getServer().getWorld(worldName)).getRegion(name);
-        Vector middle = reg.getMaximumPoint().add(reg.getMinimumPoint());
+        WorldGuard wgp = MCTowns.getWorldGuard();
+        
+        RegionContainer container = wgp.getPlatform().getRegionContainer();
+        ProtectedRegion reg = container.get(BukkitAdapter.adapt(Bukkit.getServer().getWorld(worldName))).getRegion(name);
+
+        BlockVector3 middle = reg.getMaximumPoint().add(reg.getMinimumPoint());
         middle = middle.divide(2);
 
-        org.bukkit.Location loc = new org.bukkit.Location(wgp.getServer().getWorld(worldName), middle.getBlockX(), middle.getBlockY(), middle.getBlockZ());
+        org.bukkit.Location loc = new org.bukkit.Location(Bukkit.getServer().getWorld(worldName), middle.getBlockX(), middle.getBlockY(), middle.getBlockZ());
 
         loc.setY(loc.getWorld().getHighestBlockYAt(loc));
 

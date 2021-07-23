@@ -17,8 +17,13 @@
 package cafe.josh.mctowns.command;
 
 import cafe.josh.mctowns.util.Players;
+
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+
 import java.math.BigDecimal;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -79,12 +84,13 @@ public class PlotHandler extends CommandHandler implements CommandDefinition {
             return;
         }
 
-        RegionManager regMan = MCTowns.getWorldGuardPlugin().getRegionManager(server.getWorld(plot.getWorldName()));
+        RegionContainer container = MCTowns.getWorldGuard().getPlatform().getRegionContainer();
+        RegionManager regMan = container.get(BukkitAdapter.adapt(server.getWorld(plot.getWorldName())));
 
         ProtectedRegion wgPlot = regMan.getRegion(plot.getName());
 
         //if they are neither mayor nor owner
-        if(!(localSender.hasMayoralPermissions() || wgPlot.getOwners().contains(MCTowns.getWorldGuardPlugin().wrapPlayer(localSender.getPlayer())))) {
+        if(!(localSender.hasMayoralPermissions() || wgPlot.getOwners().contains((LocalPlayer) localSender.getPlayer()))) {
             localSender.notifyInsufPermissions();
             return;
         }
@@ -140,12 +146,13 @@ public class PlotHandler extends CommandHandler implements CommandDefinition {
             return;
         }
 
-        RegionManager regMan = MCTowns.getWorldGuardPlugin().getRegionManager(server.getWorld(plot.getWorldName()));
+        RegionContainer container = MCTowns.getWorldGuard().getPlatform().getRegionContainer();
+        RegionManager regMan = container.get(BukkitAdapter.adapt(server.getWorld(plot.getWorldName())));
 
         ProtectedRegion wgPlot = regMan.getRegion(plot.getName());
 
         //if they are neither mayor nor owner
-        if(!(localSender.hasMayoralPermissions() || wgPlot.getOwners().contains(MCTowns.getWorldGuardPlugin().wrapPlayer(localSender.getPlayer())))) {
+        if(!(localSender.hasMayoralPermissions() || wgPlot.getOwners().contains((LocalPlayer) localSender.getPlayer()))) {
             localSender.notifyInsufPermissions();
             return;
         }
@@ -319,10 +326,13 @@ public class PlotHandler extends CommandHandler implements CommandDefinition {
             localSender.notifyActivePlotNotSet();
             return;
         }
+        
+        RegionContainer container = MCTowns.getWorldGuard().getPlatform().getRegionContainer();
+        RegionManager regMan = container.get(BukkitAdapter.adapt(server.getWorld(p.getWorldName())));
 
-        ProtectedRegion reg = MCTowns.getWorldGuardPlugin().getRegionManager(server.getWorld(p.getWorldName())).getRegion(p.getName());
+        ProtectedRegion reg = regMan.getRegion(p.getName());
 
-        if(!reg.isOwner(MCTowns.getWorldGuardPlugin().wrapPlayer(localSender.getPlayer()))) {
+        if(!reg.isOwner((LocalPlayer) localSender.getPlayer())) {
             localSender.sendMessage(ERR + "You don't own this plot, so you can't surrender it!");
             return;
         }

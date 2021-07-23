@@ -21,23 +21,35 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.sk89q</groupId>
-      <artifactId>worldguard</artifactId>
-      <version>6.1</version>
+      <groupId>com.sk89q.worldguard</groupId>
+      <artifactId>worldguard-bukkit</artifactId>
+      <version>7.0.5-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+	<dependency>
+	    <groupId>com.sk89q.worldedit</groupId>
+	    <artifactId>worldedit-core</artifactId>
+	    <version>7.3.0-SNAPSHOT</version>
+	    <scope>provided</scope>
+	</dependency>
+    <dependency>
+      <groupId>com.sk89q.worldedit</groupId>
+      <artifactId>worldedit-bukkit</artifactId>
+      <version>7.3.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.sk89q</groupId>
-      <artifactId>worldedit</artifactId>
-      <version>6.0.0-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>1.11-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
+	    <groupId>com.sk89q.worldedit</groupId>
+	    <artifactId>worldedit-core</artifactId>
+	    <version>7.3.0-SNAPSHOT</version>
+	    <scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.spigotmc</groupId>
+		<artifactId>spigot</artifactId>
+		<scope>provided</scope>
+		<version>1.17.1-R0.1-SNAPSHOT</version>
+	</dependency>
     <dependency>
       <groupId>cafe.josh</groupId>
       <artifactId>EverCoreUtils</artifactId>
@@ -62,6 +74,12 @@
       <version>1.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.4</version>
+    <scope>test</scope>
+</dependency>
   </dependencies>
 
   <repositories>
@@ -74,16 +92,16 @@
       <url>http://nexus.hc.to/content/repositories/pub_releases</url>
     </repository>
     <repository>
-      <id>jmh-repo</id>
-      <url>https://maven.josh.cafe/</url>
+      <id>hockeymikey-repo</id>
+      <url>https://maven.hockeymikey.com/snapshots</url>
     </repository>
     <repository>
       <id>spigot-nexus-snaps</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
     <repository>
-      <id>sk89q-repo</id>
-      <url>http://maven.sk89q.com/repo/</url>
+        <id>sk89q-repo</id>
+        <url>https://maven.enginehub.org/repo/</url>
     </repository>
     <repository>
       <id>Plugin Metrics</id>
@@ -175,8 +193,8 @@
 
   <distributionManagement>
     <repository>
-      <id>jmh-repo</id>
-      <url>scpexe://maven.josh.cafe/var/www/maven</url>
+      <id>hockeymikey-repo</id>
+      <url>https://maven.hockeymikey.com/snapshots</url>
     </repository>
   </distributionManagement>
   <description>A flexible town-management plugin for the Bukkit API, using the popular WorldGuard plugin for regions and

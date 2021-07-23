@@ -17,8 +17,12 @@
 package cafe.josh.mctowns.region;
 
 import cafe.josh.mctowns.bank.BlockBank;
-import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.math.Vector3;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -440,13 +444,15 @@ public class Town {
      */
     public boolean playerIsInsideTownBorders(Player p) {
         org.bukkit.Location playerLoc = p.getLocation();
-        Vector playerVector = new Vector(playerLoc.getBlockX(), playerLoc.getBlockY(), playerLoc.getBlockZ());
-        RegionManager regMan = MCTowns.getWorldGuardPlugin().getRegionManager(p.getWorld());
+        Vector3 playerVector = Vector3.at(playerLoc.getBlockX(), playerLoc.getBlockY(), playerLoc.getBlockZ());
+
+        RegionContainer container = MCTowns.getWorldGuard().getPlatform().getRegionContainer();
+        RegionManager regMan = container.get(BukkitAdapter.adapt(p.getWorld()));
 
         return getTerritoriesCollection().stream()
                 .map(name -> MCTowns.getTownManager().getTerritory(name))
                 .map(te -> regMan.getRegion(te.getName()))
-                .anyMatch(reg -> reg.contains(playerVector));
+                .anyMatch(reg -> reg.contains(playerVector.toBlockPoint()));
     }
 
     /**

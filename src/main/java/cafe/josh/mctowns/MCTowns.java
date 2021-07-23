@@ -16,6 +16,9 @@
  */
 package cafe.josh.mctowns;
 
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import java.util.logging.Level;
 import cafe.josh.mctowns.util.MCTConfig;
@@ -29,7 +32,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
  * @author joshua
  */
 public class MCTowns {
-    private static WorldGuardPlugin wgp;
+    private static WorldGuard wgp;
+    private static WorldEdit wep;
 
     public static String getConfigSummary() {
         return MCTownsPlugin.getPlugin().getConfig().saveToString();
@@ -63,20 +67,36 @@ public class MCTowns {
         return economyProvider != null ? economyProvider.getProvider() : null;
     }
 
-    public static WorldGuardPlugin getWorldGuardPlugin() {
+    public static WorldGuard getWorldGuard() {
         if(wgp != null) {
             return wgp;
         }
 
         Plugin p = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
         if(p instanceof WorldGuardPlugin) {
-            wgp = (WorldGuardPlugin) p;
+            wgp = WorldGuard.getInstance();
         } else {
             wgp = null;
         }
 
         return wgp;
     }
+    
+    public static WorldEdit getWorldEdit() {
+        if(wep != null) {
+            return wep;
+        }
+
+        Plugin p = Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
+        if(p instanceof WorldEditPlugin) {
+            wep = WorldEdit.getInstance();
+        } else {
+            wep = null;
+        }
+
+        return wep;
+    }
+
 
     public static TownManager getTownManager() {
         return MCTownsPlugin.getPlugin().getTownManager();
