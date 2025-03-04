@@ -60,7 +60,7 @@ public class QuickSelectToolListener implements Listener {
         this.mctp = mctp;
         this.townMan = MCTowns.getTownManager();
 
-        SELECT_TOOL = Material.getMaterial(MCTConfig.QUICKSELECT_TOOL.getString());
+        SELECT_TOOL = Material.matchMaterial(MCTConfig.QUICKSELECT_TOOL.getString());
     }
 
     @EventHandler

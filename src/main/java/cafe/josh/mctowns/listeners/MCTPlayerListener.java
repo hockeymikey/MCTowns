@@ -106,13 +106,13 @@ public class MCTPlayerListener implements Listener {
             return;
         }
 
-        if(event.getClickedBlock() == null || event.getClickedBlock() instanceof Sign) //If there is no block, or the block is not a sign, do nothing
+        if(event.getClickedBlock() == null || !(event.getClickedBlock() instanceof Sign)) //If there is no block, or the block is not a sign, do nothing
         {
             return;
         }
 
         //if the first line of the sign isn't "[mct]" then do nothing
-        if(!((Sign) event.getClickedBlock().getState()).getLine(0).equalsIgnoreCase("[mct]")) {
+        if(!((Sign) event.getClickedBlock()).getLine(0).equalsIgnoreCase("[mct]")) {
             return;
         }
 
